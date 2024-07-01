@@ -1,14 +1,13 @@
 "use client";
-import { login } from "@/app/helpers/auth.helper";
-import { LoginProps } from "@/app/types";
 
+import { useAuthActions } from "@/app/helpers/auth.helper";
+import { LoginProps } from "@/app/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAuth } from "@/app/context/AuthContext";
 
 export default function LoginComp() {
-  const { token, setToken } = useAuth();
+  const { login } = useAuthActions(); // Usa el hook personalizado
   const router = useRouter();
   const [dataUser, setDataUser] = useState<LoginProps>({
     email: "",
@@ -27,17 +26,17 @@ export default function LoginComp() {
     try {
       const response = await login(dataUser);
       sessionStorage.setItem("token", response.token);
-      setToken(response.token);
       sessionStorage.setItem("name", response.user.name);
       sessionStorage.setItem("email", response.user.email);
       sessionStorage.setItem("phone", response.user.phone);
       sessionStorage.setItem("address", response.user.address);
-      window.alert("successfully logged in");
+      window.alert("Successfully logged in");
       router.push("/products");
     } catch (error: any) {
       window.alert(`${error.message}: incorrect email or password`);
     }
   }
+
   return (
     <main className="container flex flex-col justify-center items-center bg-white mx-auto p-10 ">
       <h2 className="text-[#373737] text-6xl my-5">Sign in</h2>
@@ -51,7 +50,7 @@ export default function LoginComp() {
           type="email"
           value={dataUser.email}
           onChange={handleChange}
-          className=" rounded my-3 h-8 w-72 border border-[#373737] p-1"
+          className="rounded my-3 h-8 w-72 border border-[#373737] p-1"
           placeholder="E-mail"
           required
         />
@@ -61,7 +60,7 @@ export default function LoginComp() {
           type="password"
           value={dataUser.password}
           onChange={handleChange}
-          className="border rounded my-3 h-8 w-72 border border-[#373737] p-1"
+          className="border rounded my-3 h-8 w-72 border-[#373737] p-1"
           placeholder="Password"
           required
         />
@@ -73,10 +72,10 @@ export default function LoginComp() {
         </button>
       </form>
       <span className="text-[#373737] my-2">
-        Don't have an account yet?{" "}
+        Dont have an account yet?{" "}
         <Link href={"/register"} className="border-b border-[#373737]">
-          sign up
-        </Link>{" "}
+          Sign up
+        </Link>
       </span>
       <img
         src="https://static.eway.ca/content/landingpage/251/en/Profesisonal_appleforbusiness_headerbanner.jpg"

@@ -8,7 +8,7 @@ async function ProductCards() {
   return (
     <CardsContainer className="container mx-auto">
       {products.map((product, index) => (
-        <Link href={`/products/${index}`}>
+        <Link key={product.id} href={`/products/${index}`}>
           <ProductCard key={product.id} {...product} />
         </Link>
       ))}
