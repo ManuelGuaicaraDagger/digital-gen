@@ -1,10 +1,11 @@
 "use client";
-import { register } from "@/app/helpers/auth.helper";
+import { useAuthActions } from "@/app/helpers/auth.helper";
 import { RegisterProps } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RegisterComp() {
+  const {register} = useAuthActions()
   const router = useRouter();
   const [dataUser, setDataUser] = useState<RegisterProps>({
     email: "",
